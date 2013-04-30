@@ -21,12 +21,13 @@
 			easingIn:($.easing && $.easing.def ? 'easeInOutCubic' : false), // The easing in function to use for the slide.
 			easingOut:($.easing && $.easing.def ? 'easeInOutCubic' : false), // The easing out function to use for the slide.
 			fadeDuration:250, // Duration of animation when it's fade only.
-			labelLeft:0, // The distance from the left for the label.
+			labelOffset:0, // The distance from the left/right for the label.
 			labelTop:0, // The distance from the top for the label.
 			noAnimate:false, // Whether or not to animate (slide and fade) the label. If true, we'll just hide it.
 			opacity:0.5, // The opacity to fade the label to.
 			slide:true, // Whether or not to slide the label across the input field.
-			wrapSelector:false // The selector for the element you have wrapping each field.
+			wrapSelector:false, // The selector for the element you have wrapping each field.
+			rtl: false
 		},
 		acceptedInputTypes = ['text', 'search', 'url', 'tel', 'email', 'password', 'number'],
 		acceptedElements = ['input', 'textarea', 'select'],
@@ -186,13 +187,15 @@
 			}
 
 			_field.css({ zIndex:_defaults.baseZindex+1 }).addClass('sl_field');
-			_label.css({
-				left:_noVal(_field) ? _defaults.labelLeft : $(_field).width()-_label.width(),
+			var labelCss = {
 				opacity:_opacity,
 				position:'absolute',
 				top:_defaults.labelTop,
 				zIndex:_defaults.baseZindex+2
-			}).addClass('sl_label');
+			};
+			var pos = _defaults.rtl ? 'right' : 'left';
+			labelCss[pos] = _noVal(_field) ? _defaults.labelOffset : $(_field).width()-_label.width();
+			_label.css(labelCss).addClass('sl_label');
 		}
 	};
 
@@ -212,7 +215,8 @@
 			}
 
 			if (_defaults.slide) {
-				_to.left = $(this).width()-_label.width();
+				var pos = _defaults.rtl ? 'right' : 'left';
+				_to[pos] = $(this).width()-_label.width();
 				_to.opacity = _defaults.opacity;
 			} else {
 				_duration = _defaults.fadeDuration;
@@ -236,7 +240,8 @@
 			}
 
 			if (_defaults.slide) {
-				_to.left = _defaults.labelLeft;
+				var pos = _defaults.rtl ? 'right' : 'left';
+				_to[pos] = _defaults.labelOffset;
 			} else {
 				_duration = _defaults.fadeDuration;
 			}
