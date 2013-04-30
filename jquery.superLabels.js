@@ -27,7 +27,7 @@
 			opacity:0.5, // The opacity to fade the label to.
 			slide:true, // Whether or not to slide the label across the input field.
 			wrapSelector:false, // The selector for the element you have wrapping each field.
-			rtl: false
+			rtl: false // is direction 'Right-To-Left' ?
 		},
 		acceptedInputTypes = ['text', 'search', 'url', 'tel', 'email', 'password', 'number'],
 		acceptedElements = ['input', 'textarea', 'select'],
